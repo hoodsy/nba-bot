@@ -26,7 +26,7 @@ app.get('/', function (req, res) {
 })
 
 // for facebook verification
-// app.get('/webhook/', handleWebhookGet)
+app.get('/webhook/', handleWebhookGet)
 // app.post('/webhook/', handleWebhookPost)
 
 // spin spin sugar
