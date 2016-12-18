@@ -1,0 +1,9 @@
+*.DS_Store
+coverage
+typings
+node_modules
+npm-debug.log
+._*
+.env
+dist
+server/logs/campaignLog.txt
