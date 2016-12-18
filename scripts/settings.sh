@@ -1,18 +1,18 @@
 # Change 'Persistent Menu' options
+# {
+#   "type":"web_url",
+#   "title":"View Website",
+#   "url":"https://impressiv.io"
+# },
+# {
+#   "type":"postback",
+#   "title":"Get Today'\'s' Headlines",
+#   "payload":"GET_DAILY_ARTICLES"
+# },
 curl -X POST -H "Content-Type: application/json" -d '{
   "setting_type" : "call_to_actions",
   "thread_state" : "existing_thread",
   "call_to_actions":[
-    {
-      "type":"web_url",
-      "title":"View Website",
-      "url":"https://impressiv.io"
-    },
-    {
-      "type":"postback",
-      "title":"Get Today'\'s' Headlines",
-      "payload":"GET_DAILY_ARTICLES"
-    },
     {
       "type":"postback",
       "title":"Manage Settings",

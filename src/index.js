@@ -5,16 +5,16 @@ import bodyParser from 'body-parser'
 import request from 'request'
 import schedule from 'node-schedule'
 
-import { handleWebhookPost, handleWebhookGet } from './api/receive'
+// import { handleWebhookPost, handleWebhookGet } from './api/receive'
 import { dbConnect } from './config/db'
-import { sendDailySubscription } from './api/subscribe'
+// import { sendDailySubscription } from './api/subscribe'
 
 const app = express()
-app.set('port', (process.env.PORT || 4000))
+app.set('port', (process.env.PORT || 5000))
 
 dbConnect(app)
 
-schedule.scheduleJob('0 30 12 * * *', sendDailySubscription)
+// schedule.scheduleJob('0 30 12 * * *', sendDailySubscription)
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended:false }))
@@ -26,8 +26,8 @@ app.get('/', function (req, res) {
 })
 
 // for facebook verification
-app.get('/webhook/', handleWebhookGet)
-app.post('/webhook/', handleWebhookPost)
+// app.get('/webhook/', handleWebhookGet)
+// app.post('/webhook/', handleWebhookPost)
 
 // spin spin sugar
 app.listen(app.get('port'), function() {

@@ -3,7 +3,6 @@ import _ from 'lodash'
 require('dotenv').config()
 
 import User from '../models/User'
-import * as articles from '../articles'
 import { Card, ArticleCard, quick_replies } from '../messages'
 import * as actions from '../actions'
 
