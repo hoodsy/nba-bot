@@ -3,7 +3,7 @@ import * as send from '../api/send'
 import * as subscribe from '../api/subscribe'
 import * as actions from '../actions'
 import User from '../models/User'
-import Subscription from '../models/Subscription'
+// import Subscription from '../models/Subscription'
 import { timeout } from '../util'
 
 //
@@ -28,14 +28,14 @@ export async function handleWebhookPost (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
       let event = req.body.entry[0].messaging[i]
 
-      if (event.message && event.message.text && !event.message.is_echo) {
-        await handleMessage(event)
-      }
+      // if (event.message && event.message.text && !event.message.is_echo) {
+      //   await handleMessage(event)
+      // }
 
-      if (event.postback) {
-        handlePostback(event)
-        continue
-      }
+      // if (event.postback) {
+      //   handlePostback(event)
+      //   continue
+      // }
     }
 
     res.sendStatus(200)

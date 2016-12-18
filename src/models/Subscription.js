@@ -2,8 +2,6 @@ import mongoose, { Schema } from 'mongoose'
 import request from 'request-promise'
 import _ from 'lodash'
 
-import { getFeaturedCards } from '../articles'
-
 export const DEFAULT_HEADLINE = 'Here\'s today\'s latest in Politics and the NBA!'
 
 const SubscriptionSchema = new Schema({
@@ -36,29 +34,29 @@ SubscriptionSchema.methods.setHeadline = async function (headline, cards) {
   }
 }
 
-SubscriptionSchema.methods.getHeadlineCards = async function () {
-  try {
-
-    let oldCards = [ { title: '' } ]
-    if (this.log.length > 0) {
-      oldCards = this.log.pop()
-      oldCards = oldCards.cards
-    }
-
-    const newCards = await getFeaturedCards()
-    const cards = newCards.filter(card =>
-      !oldCards.some(oldCard =>
-        oldCard.title == card.title
-      )
-    )
-
-    return cards
-
-  } catch (err) {
-    console.error('ERROR in Subscription in setHeadline()', err)
-    console.error('============')
-  }
-}
+// SubscriptionSchema.methods.getHeadlineCards = async function () {
+//   try {
+//
+//     let oldCards = [ { title: '' } ]
+//     if (this.log.length > 0) {
+//       oldCards = this.log.pop()
+//       oldCards = oldCards.cards
+//     }
+//
+//     const newCards = await getFeaturedCards()
+//     const cards = newCards.filter(card =>
+//       !oldCards.some(oldCard =>
+//         oldCard.title == card.title
+//       )
+//     )
+//
+//     return cards
+//
+//   } catch (err) {
+//     console.error('ERROR in Subscription in setHeadline()', err)
+//     console.error('============')
+//   }
+// }
 
 SubscriptionSchema.methods.logHeadline = async function (headline, cards) {
   try {

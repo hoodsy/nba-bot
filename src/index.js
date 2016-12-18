@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import request from 'request'
 import schedule from 'node-schedule'
 
-// import { handleWebhookPost, handleWebhookGet } from './api/receive'
+import { handleWebhookPost, handleWebhookGet } from './api/receive'
 import { dbConnect } from './config/db'
 // import { sendDailySubscription } from './api/subscribe'
 
