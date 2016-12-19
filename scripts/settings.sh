@@ -1,4 +1,9 @@
+# Connect Page to App
+# === === === === ===
+curl -X POST "https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=<PAGE_ACCESS_TOKEN>"
+
 # Change 'Persistent Menu' options
+# === === === === ===
 # {
 #   "type":"web_url",
 #   "title":"View Website",
@@ -22,6 +27,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 }' "https://graph.facebook.com/v2.6/me/thread_settings?access_token="
 
 # Change 'Get Started' button
+# === === === === ===
 curl -X POST -H "Content-Type: application/json" -d '{
   "setting_type":"call_to_actions",
   "thread_state":"new_thread",

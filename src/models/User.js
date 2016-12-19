@@ -54,4 +54,30 @@ UserSchema.statics.exists = async function (messenger_id) {
   }
 }
 
+UserSchema.statics.subscribe = async function (messenger_id) {
+  try {
+
+    await this.update(
+      { messenger_id },
+      { $set: { 'subscription.active': true } }
+    )
+
+  } catch (err) {
+    console.error('ERROR in model USER static subscribe(): ', err)
+  }
+}
+
+UserSchema.statics.unsubscribe = async function (messenger_id) {
+  try {
+
+    await this.update(
+      { messenger_id },
+      { $set: { 'subscription.active': false } }
+    )
+
+  } catch (err) {
+    console.error('ERROR in model USER static unsubscribe(): ', err)
+  }
+}
+
 export default mongoose.model('User', UserSchema)
