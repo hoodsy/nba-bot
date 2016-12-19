@@ -1,4 +1,4 @@
-import request from 'request'
+import request from 'request-promise'
 import _ from 'lodash'
 require('dotenv').config()
 
@@ -6,24 +6,30 @@ import User from '../models/User'
 import { Card, ArticleCard, quick_replies } from '../messages'
 import * as actions from '../actions'
 
-function _send(messageData) {
-  request({
-    url: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: process.env.FB_PAGE_ACCESS_TOKEN },
-    method: 'POST',
-    json: messageData
-  }, function(error, response, body) {
-    if (error) {
-      console.error('Error sending messages: ', error)
-      console.error('============')
-    } else if (response.body.error) {
-      console.error('Error sending messages: ', response.body.error)
-      console.error(messageData)
-      console.error('============')
-    }
-  })
+//
+// Send Message Request
+// ---
+//
+async function _send(messageData) {
+  try {
+
+    await request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: { access_token: process.env.FB_PAGE_ACCESS_TOKEN },
+      method: 'POST',
+      json: messageData
+    })
+
+  } catch (err) {
+    console.log('ERROR in SEND in _send()', err)
+    console.log('============')
+  }
 }
 
+//
+// Message Templates
+// ---
+//
 export function cardsMessage(recipientId, cards) {
   try {
 

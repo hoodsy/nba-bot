@@ -90,7 +90,7 @@ async function handlePostback({ postback, sender }) {
         await send.textMessage(sender.id, 'Here are the daily headlines, for your viewing pleasure:')
         return
 
-      case actions.EDIT_SETTINGS:
+      case actions.EDIT_SUBSCRIPTION:
         await send.subscriptionMessage(sender.id)
         return
 

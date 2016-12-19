@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 //
 // Cards
 // ---
@@ -14,7 +12,6 @@ export class Card {
   }
 
   button(type, title, data) {
-
     const button = { type, title }
     if (type === 'web_url') {
       button.url = data
@@ -26,9 +23,7 @@ export class Card {
       delete button.title
     }
     this.buttons.unshift(button)
-
   }
-
 }
 
 //
