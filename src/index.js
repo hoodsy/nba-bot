@@ -2,16 +2,15 @@
 
 import express from 'express'
 import bodyParser from 'body-parser'
-import request from 'request'
 import schedule from 'node-schedule'
+import catchPromiseErrors from 'async-error-catcher'
 
 import { handleWebhookPost, handleWebhookGet } from './api/receive'
 import { dbConnect } from './config/db'
-// import { sendDailySubscription } from './api/subscribe'
 
 const app = express()
-app.set('port', (process.env.PORT || 5000))
 
+app.set('port', (process.env.PORT || 5000))
 dbConnect(app)
 
 // schedule.scheduleJob('0 30 12 * * *', sendDailySubscription)
@@ -26,8 +25,19 @@ app.get('/', function (req, res) {
 })
 
 // for facebook verification
-app.get('/webhook/', handleWebhookGet)
-app.post('/webhook/', handleWebhookPost)
+app.get('/webhook/', catchPromiseErrors(handleWebhookGet))
+app.post('/webhook/', catchPromiseErrors(handleWebhookPost))
+
+//
+// Error Handler
+// ---
+//
+app.use((err, req, res, next) => {
+  console.error('============')
+  console.error(err)
+  console.error('============')
+  res.status(500)
+})
 
 // spin spin sugar
 app.listen(app.get('port'), function() {

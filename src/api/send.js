@@ -3,7 +3,7 @@ import _ from 'lodash'
 require('dotenv').config()
 
 import User from '../models/User'
-import { Card, ArticleCard, quick_replies } from '../messages'
+import { Card, ArticleCard, quick_replies } from '../templates'
 import * as actions from '../actions'
 
 //
@@ -11,28 +11,19 @@ import * as actions from '../actions'
 // ---
 //
 async function _send(messageData) {
-  try {
-
     await request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
       qs: { access_token: process.env.FB_PAGE_ACCESS_TOKEN },
       method: 'POST',
       json: messageData
     })
-
-  } catch (err) {
-    console.log('ERROR in SEND in _send()', err)
-    console.log('============')
-  }
 }
 
 //
 // Message Templates
 // ---
 //
-export function cardsMessage(recipientId, cards) {
-  try {
-
+export async function cardsMessage(recipientId, cards) {
     const messageData = {
       recipient: { id: recipientId },
       message: {
@@ -46,16 +37,10 @@ export function cardsMessage(recipientId, cards) {
         }
       }
     }
-    _send(messageData)
-
-  } catch (err) {
-    console.error('ERROR in SEND in cardsMessage()', err)
-    console.error('============')
-  }
+    await _send(messageData)
 }
 
-export function textMessage(recipientId, text) {
-
+export async function textMessage(recipientId, text) {
   const messageData = {
     recipient: { id: recipientId },
     message: {
@@ -63,13 +48,10 @@ export function textMessage(recipientId, text) {
       quick_replies
     }
   }
-  _send(messageData)
-
+  await _send(messageData)
 }
 
 export async function subscriptionMessage(recipientId) {
-  try {
-
     const user = await User.findOne(
       { messenger_id: recipientId },
       { subscription: 1 }
@@ -81,8 +63,8 @@ export async function subscriptionMessage(recipientId) {
 
     const card = new Card({
       title: 'Manage Subscription',
-      image_url: 'https://s3.amazonaws.com/impressiv/subscription-image.png',
-      subtitle: 'Recieve headlines for Politics and the NBA in the morning and evening.'
+      image_url: '',
+      subtitle: 'Subscribe or unsubscribe'
     })
     if (user.subscription.active) {
       card.button('postback', 'Unsubscribe', actions.UNSUBSCRIBE)
@@ -104,10 +86,12 @@ export async function subscriptionMessage(recipientId) {
         }
       }
     }
-    _send(messageData)
+    await _send(messageData)
+}
 
-  } catch (err) {
-    console.error('ERROR in SEND in subscriptionMessage()', err)
-    console.error('================')
-  }
+export async function scheduledSubscriptionMessage() {
+    const users = await User.find({ 'subscription.active': true })
+    await Promise.all(users.map(async (user) => {
+      await textMessage(user.messenger_id, 'SUBSCRIPTION MESSAGE')
+    }))
 }

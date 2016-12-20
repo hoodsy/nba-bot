@@ -4,11 +4,9 @@ import Promise from 'bluebird'
 import { db } from '../config'
 
 global.Promise = Promise
-
 Promise.onPossiblyUnhandledRejection(function(error){
     throw error;
 });
-
 
 export function dbConnect(app) {
   let dbUrl
@@ -27,7 +25,7 @@ export function dbConnect(app) {
       console.log(`Connected to ${dbInfo.host}:${dbInfo.port}/${dbInfo.name}`)
     })
 
-  // Use native Promises
+  // Use Bluebird Promises
   mongoose.Promise = Promise
   mongoose.connect(dbUrl, { db: { safe: false } })
 }
